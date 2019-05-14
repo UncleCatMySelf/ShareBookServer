@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mobook.dao.UserMapper" >
+    <resultMap id="BaseResultMap" type="com.github.myself.entity.User" >
+        <constructor >
+            <idArg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="openid" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="sessionid" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        user_id, openid, sessionid, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.github.myself.entity.User" >
+        insert into user (user_id, openid, sessionid,
+        create_time, update_time)
+        values (#{userId,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{sessionid,jdbcType=VARCHAR},
+        now(), now())
+    </insert>
+    <insert id="insertSelective" parameterType="com.github.myself.entity.User" >
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="openid != null" >
+                openid,
+            </if>
+            <if test="sessionid != null" >
+                sessionid,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="openid != null" >
+                #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="sessionid != null" >
+                #{sessionid,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                now(),
+            </if>
+            <if test="updateTime != null" >
+                now(),
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.github.myself.entity.User" >
+        update user
+        <set >
+            <if test="openid != null" >
+                openid = #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="sessionid != null" >
+                sessionid = #{sessionid,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                update_time = now(),
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.github.myself.entity.User" >
+        update user
+        set openid = #{openid,jdbcType=VARCHAR},
+        sessionid = #{sessionid,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = now()
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectByOpenId" parameterType="string" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user
+        WHERE openid = #{openid}
+    </select>
+
+</mapper>
