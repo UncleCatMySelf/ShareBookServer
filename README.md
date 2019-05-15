@@ -12,3 +12,11 @@
 ### 相关信息
 
 swagger-ui查看路径：`http://localhost:8080/sharebook/swagger-ui.html`
+
+#### 公众号：Java猫说
+
+**学习交流群：728698035**
+
+> 现架构设计（码农）兼创业技术顾问，不羁平庸，热爱开源，杂谈程序人生与不定期干货。
+
+![Image Text](https://user-gold-cdn.xitu.io/2018/12/28/167f41f1a5729856?w=344&h=344&f=jpeg&s=8231)
