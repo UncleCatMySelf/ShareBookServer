@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.mobook.dao.UserMapper" >
+<mapper namespace="com.github.myself.mapper.UserMapper" >
     <resultMap id="BaseResultMap" type="com.github.myself.entity.User" >
         <constructor >
             <idArg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -92,7 +92,6 @@
         update_time = now()
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
-
     <select id="selectByOpenId" parameterType="string" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />

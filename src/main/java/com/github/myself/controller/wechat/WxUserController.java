@@ -5,12 +5,14 @@ import com.github.myself.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by MySelf on 2019/5/14.
  */
-@RestController("/api/v1/user")
+@RestController
+@RequestMapping("/api/v1/user/")
 public class WxUserController {
 
     @Autowired

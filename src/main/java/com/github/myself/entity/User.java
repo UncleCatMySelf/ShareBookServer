@@ -23,4 +23,14 @@ public class User implements Serializable{
 
     private Date updateTime;
 
+    public User() {
+    }
+
+    public User(Integer userId, String openid, String sessionid, Date createTime, Date updateTime) {
+        this.userId = userId;
+        this.openid = openid;
+        this.sessionid = sessionid;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
 }
