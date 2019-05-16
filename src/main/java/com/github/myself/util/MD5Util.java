@@ -1,7 +1,6 @@
-package com.github.myself.utl;
+package com.github.myself.util;
 
 import com.github.myself.common.AppMessage;
-import org.apache.logging.log4j.util.PropertiesUtil;
 
 import java.security.MessageDigest;
 

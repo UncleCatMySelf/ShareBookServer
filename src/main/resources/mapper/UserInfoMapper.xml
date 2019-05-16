@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.myself.entity.UserInfo" >
+    <resultMap id="BaseResultMap" type="com.github.myself.entity.UserInfo" >
+        <constructor >
+            <idArg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="avatar_url" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="country" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="gender" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="nickname" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="province" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        user_id, avatar_url, city, country, gender, nickname, province, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from user_info
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from user_info
+        where user_id = #{userId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.github.myself.entity.UserInfo" >
+        insert into user_info (user_id, avatar_url, city,
+        country, gender, nickname,
+        province, create_time, update_time
+        )
+        values (#{userId,jdbcType=INTEGER}, #{avatarUrl,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR},
+        #{country,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR},
+        #{province,jdbcType=VARCHAR}, now(), now()
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.github.myself.entity.UserInfo" >
+        insert into user_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="avatarUrl != null" >
+                avatar_url,
+            </if>
+            <if test="city != null" >
+                city,
+            </if>
+            <if test="country != null" >
+                country,
+            </if>
+            <if test="gender != null" >
+                gender,
+            </if>
+            <if test="nickname != null" >
+                nickname,
+            </if>
+            <if test="province != null" >
+                province,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="avatarUrl != null" >
+                #{avatarUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null" >
+                #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null" >
+                #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null" >
+                #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="nickname != null" >
+                #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null" >
+                #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                now(),
+            </if>
+            <if test="updateTime != null" >
+                now(),
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.github.myself.entity.UserInfo" >
+        update user_info
+        <set >
+            <if test="avatarUrl != null" >
+                avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null" >
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null" >
+                country = #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null" >
+                gender = #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="nickname != null" >
+                nickname = #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null" >
+                province = #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                update_time = now(),
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.github.myself.entity.UserInfo" >
+        update user_info
+        set avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+        city = #{city,jdbcType=VARCHAR},
+        country = #{country,jdbcType=VARCHAR},
+        gender = #{gender,jdbcType=INTEGER},
+        nickname = #{nickname,jdbcType=VARCHAR},
+        province = #{province,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = now()
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectByUserId" parameterType="int" resultType="int">
+        SELECT
+        count(1)
+        FROM user_info
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectAllUsers" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user_info
+    </select>
+</mapper>

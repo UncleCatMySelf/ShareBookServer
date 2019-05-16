@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.myself.entity.UserMessage" >
+    <resultMap id="BaseResultMap" type="com.github.myself.entity.UserMessage" >
+        <constructor >
+            <idArg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="user_book_num" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="user_all_time" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="user_integral" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        user_id, user_book_num, user_all_time, user_integral, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from user_message
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from user_message
+        where user_id = #{userId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.github.myself.entity.UserMessage" >
+        insert into user_message (user_id, user_book_num, user_all_time,
+        user_integral, create_time, update_time
+        )
+        values (#{userId,jdbcType=INTEGER}, #{userBookNum,jdbcType=VARCHAR}, #{userAllTime,jdbcType=VARCHAR},
+        #{userIntegral,jdbcType=VARCHAR}, now(), now()
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.github.myself.entity.UserMessage" >
+        insert into user_message
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="userBookNum != null" >
+                user_book_num,
+            </if>
+            <if test="userAllTime != null" >
+                user_all_time,
+            </if>
+            <if test="userIntegral != null" >
+                user_integral,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="userBookNum != null" >
+                #{userBookNum,jdbcType=VARCHAR},
+            </if>
+            <if test="userAllTime != null" >
+                #{userAllTime,jdbcType=VARCHAR},
+            </if>
+            <if test="userIntegral != null" >
+                #{userIntegral,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                now(),
+            </if>
+            <if test="updateTime != null" >
+                now(),
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.github.myself.entity.UserMessage" >
+        update user_message
+        <set >
+            <if test="userBookNum != null" >
+                user_book_num = #{userBookNum,jdbcType=VARCHAR},
+            </if>
+            <if test="userAllTime != null" >
+                user_all_time = #{userAllTime,jdbcType=VARCHAR},
+            </if>
+            <if test="userIntegral != null" >
+                user_integral = #{userIntegral,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                update_time = now(),
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.github.myself.entity.UserMessage" >
+        update user_message
+        set user_book_num = #{userBookNum,jdbcType=VARCHAR},
+        user_all_time = #{userAllTime,jdbcType=VARCHAR},
+        user_integral = #{userIntegral,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = now()
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+    <select id="selectAllUsers" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user_message
+        WHERE user_book_num != 0
+        AND user_all_time != 0
+    </select>
+</mapper>

@@ -8,20 +8,20 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by MySelf on 2019/5/14.
+ * Created by MySelf on 2019/5/16.
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Serializable{
+public class UserAmount implements Serializable {
 
-    private static final long serialVersionUID = -9193300274769203523L;
+    private static final long serialVersionUID = 7320028727043262239L;
 
     private Integer userId;
 
-    private String openid;
+    private String deposit;
 
-    private String sessionid;
+    private String recharge;
 
     private Date createTime;
 

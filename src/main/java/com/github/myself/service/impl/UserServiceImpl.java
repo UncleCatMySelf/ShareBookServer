@@ -5,9 +5,17 @@ import com.github.myself.common.HttpService;
 import com.github.myself.common.ServerResponse;
 import com.github.myself.common.TokenCache;
 import com.github.myself.entity.User;
+import com.github.myself.entity.UserAmount;
+import com.github.myself.entity.UserInfo;
+import com.github.myself.entity.UserMessage;
+import com.github.myself.mapper.UserAmountMapper;
+import com.github.myself.mapper.UserInfoMapper;
 import com.github.myself.mapper.UserMapper;
+import com.github.myself.mapper.UserMessageMapper;
 import com.github.myself.service.IUserService;
-import com.github.myself.utl.MD5Util;
+import com.github.myself.util.MD5Util;
+import com.github.myself.util.TitleChangeIntegralUtil;
+import com.github.myself.vo.UserMessageVo;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +32,12 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+    @Autowired
+    private UserMessageMapper userMessageMapper;
+    @Autowired
+    private UserAmountMapper userAmountMapper;
 
     @Override
     public ServerResponse getToken(String code) {
@@ -72,7 +86,60 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServerResponse verifyToken(String token) {
-        return null;
+        String realToken = TokenCache.getKey("token");
+        if (token.equals(realToken)){
+            return ServerResponse.createBySuccess(true);
+        } else {
+            return ServerResponse.createBySuccess(false);
+        }
+    }
+
+    @Override
+    public ServerResponse saveUserInfo(String userid, UserInfo userInfo) {
+        int effectNum = userInfoMapper.selectByUserId(Integer.parseInt(userid));
+        if (effectNum > 0){
+            return ServerResponse.createBySuccess("用户信息已存在");
+        } else {
+            int insertCount = userInfoMapper.insert(userInfo);
+            if (insertCount > 0){
+                UserMessage userMessage = new UserMessage();
+                userMessage.setUserId(Integer.parseInt(userid));
+                userMessage.setUserBookNum("0");
+                userMessage.setUserAllTime("0");
+                userMessage.setUserIntegral("0");
+                int insertUserMessageNum = userMessageMapper.insert(userMessage);
+                if (insertUserMessageNum > 0){
+                    UserAmount userAmount = new UserAmount();
+                    userAmount.setUserId(Integer.parseInt(userid));
+                    userAmount.setDeposit("0.0");//押金
+                    userAmount.setRecharge("0.0");//充值
+                    insertUserMessageNum = userAmountMapper.insert(userAmount);
+                    if (insertUserMessageNum > 0){
+                        return ServerResponse.createBySuccess("用户金额插入成功");
+                    } else {
+                        return ServerResponse.createByErrorMessage("用户金额插入失败");
+                    }
+                } else {
+                    return ServerResponse.createByErrorMessage("用户页面信息插入失败");
+                }
+            } else {
+                return ServerResponse.createByErrorMessage("用户详情插入失败");
+            }
+        }
+    }
+
+    @Override
+    public ServerResponse<UserMessageVo> getUserMessage(String id) {
+        UserMessage userMessage = userMessageMapper.selectByPrimaryKey(Integer.parseInt(id));
+        if (userMessage == null){
+            return ServerResponse.createByErrorMessage("数据库查询空对象，请重新传参");
+        }
+        UserMessageVo userMessageVo = new UserMessageVo();
+        userMessageVo.setUserId(String.valueOf(userMessage.getUserId()));
+        userMessageVo.setBookNum(userMessage.getUserBookNum());
+        userMessageVo.setAllTime(userMessage.getUserAllTime());
+        userMessageVo.setTitle(TitleChangeIntegralUtil.tittleChangeByIntegral(userMessage.getUserIntegral()));
+        return ServerResponse.createBySuccess(userMessageVo);
     }
 
     @Override

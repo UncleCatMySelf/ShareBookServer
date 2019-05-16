@@ -1,6 +1,8 @@
 package com.github.myself.service;
 
 import com.github.myself.common.ServerResponse;
+import com.github.myself.entity.UserInfo;
+import com.github.myself.vo.UserMessageVo;
 
 /**
  * Created by MySelf on 2019/5/14.
@@ -11,9 +13,9 @@ public interface IUserService {
 
     ServerResponse verifyToken(String token);
 
-    //ServerResponse saveUserInfo(String userid, UserInfo userInfo);
+    ServerResponse saveUserInfo(String userid, UserInfo userInfo);
 
-    //ServerResponse<UserMessageVo> getUserMessage(String id);
+    ServerResponse<UserMessageVo> getUserMessage(String id);
 
     //ServerResponse getUserList(int pageNum, int pageSize);
 
